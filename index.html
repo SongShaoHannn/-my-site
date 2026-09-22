@@ -10,8 +10,14 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --main-color: #56a7fe;
+            --bg-color: #f5f7fa;
+            --text-color: #333333;
+        }
+
         body {
-            background-color: #ddff61c4;
+            background-color: var(--bg-color);
         }
 
         h1 {
@@ -20,7 +26,7 @@
         }
 
         p {
-            color: #303030;
+            color: var(--text-color);
             font-size: 16px;
         }
 
@@ -30,8 +36,8 @@
         }
 
         button {
-            background-color: #56a7fe;
-            color: white;
+            background-color: var(--main-color);
+            color: var(--text-color);
             padding: 10px 24px;
             transition: all 0.3s;
         }
@@ -64,7 +70,7 @@
             background-color: #f0f4ff;
             padding: 16px 24px;
             border-radius: 8px;
-            border: 2px solid #56a7fe;
+            border: 2px solid var(--main-color);
             transition: all 0.3s;
         }
 
@@ -73,23 +79,48 @@
             cursor: pointer;
         }
 
-        .works {
-            
+        .works-grid {
             display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            text-align: center;
         }
 
-        .works img {
-            height: 380px;
+        .works-card img {
+            height: 240px;
             border-radius: 8px;
             transition: transform 0.3s;
             width: 100%;
             object-fit: cover;
         }
 
-        .works img:hover {
+        .works-card img:hover {
             transform: scale(1.05);
+        }
+
+        .works-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .works-card .overlay {
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .works-card:hover .overlay {
+            opacity: 1;
         }
 
         h3 {
@@ -101,7 +132,7 @@
             text-align: center;
             padding: 24px;
             margin-top: 40px;
-            background-color: white;
+            background-color: var(--bg-color);
         }
 
         .top {
@@ -114,8 +145,121 @@
         .top a {
             margin-left: 20px;
             text-decoration: none;
-            /* 去掉链接的下划线 */
-            color: #0099ff;
+            color: var(--main-color);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #8fe5facc, var(--bg-color));
+        }
+
+        .hero h1 {
+            animation: fadeInUp 1.2s;
+        }
+
+        .about {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about img {
+            width: 200px;
+            border-radius: 50%;
+        }
+
+        .skill-bar {
+            margin-bottom: 24px;
+        }
+
+        .bar-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .bar {
+            height: 12px;
+            border-radius: 6px;
+            background-color: #e0e0e0;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            background-color: var(--main-color);
+            animation: fillBar 1s;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: var(--main-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+
+        }
+
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            display: none;
+        }
+
+        #lightbox.show {
+            display: flex;
+
+        }
+
+        #lightbox img {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+        }
+
+        .lightbox-btns {
+            display: flex;
+            gap: 16px;
+        }
+
+        #lightbox button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
         }
 
         @media(max-width:600px) {
@@ -128,20 +272,23 @@
                 align-items: center;
             }
 
-            .works {
-                flex-direction: column;
-                align-items: center;
-                grid-template-columns: repeat(1,1fr);
+            .works-grid {
+                grid-template-columns: repeat(1, 1fr);
             }
 
-            .works img {
+            .works-card img {
                 width: 90%;
-                
+
             }
 
             .top {
                 flex-direction: column;
                 gap: 8px;
+            }
+
+            .about {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -151,38 +298,98 @@
     <header class="top">
         <div class="logo">宋韶晗</div>
         <nav>
-            <a href="#">首页</a>
+            <a href="#home">首页</a>
+            <a href="#about">关于我</a>
+            <a href="#skills">技能</a>
             <a href="#works">作品</a>
             <a href="#contact">联系</a>
         </nav>
     </header>
 
     <main>
-        <section>
+        <section id="home" class="hero">
             <div class="card">
                 <h1>姓名:宋韶晗</h1>
                 <h2>专业:计算机</h2>
                 <p>简介:一枚帅哥</p>
-                <img src="images/彭于晏.jpg"
-                    alt="图片错误">
+                <img src="images/彭于晏.jpg" alt="图片加载错误">
                 <br>
                 <button>联系我</button>
                 <button>查看作品</button>
-                <p>会用的软件:</p>
-                <div class="skill">
-                    <div class="skill-item">Adobe Photoshop</div>
-                    <div class="skill-item">VSCode</div>
-                    <div class="skill-item">Claude Code</div>
+
+            </div>
+        </section>
+        <section id="about" class="about">
+            <img src="images/头像.jpg" alt="头像">
+            <div>
+                <h2>关于我</h2>
+                <p>enm...............</p>
+            </div>
+        </section>
+        <section id="skills">
+            <p>会用的软件:</p>
+            <div class="skill">
+                <div class="skill-item">Adobe Photoshop</div>
+                <div class="skill-item">VSCode</div>
+                <div class="skill-item">Claude Code</div>
+            </div>
+            <div class="skill-bar">
+                <div class="bar-label">Photoshop</div>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 70%;"></div>
                 </div>
             </div>
+
+            <div class="skill-bar">
+                <div class="bar-label">VSCode</div>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 60%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <div class="bar-label">Claude Code</div>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 50%;"></div>
+                </div>
+            </div>
+
         </section>
 
         <section id="works">
             <h3>我的作品</h3>
-            <div class="works">
-                <img src="images/拼贴图.jpg" alt="作品1">
-                <img src="images/树叶.jpg" alt="作品2">
-                <img src="images/故宫.jpg" alt="作品3">
+            <div class="works-grid">
+                <div class="works-card">
+                    <img src="images/12.jpg" alt="作品1">
+                    <h3>夏</h3>
+                    <span class="tag">摄影</span>
+                    <div class="overlay">夏</div>
+                </div>
+                <div class="works-card">
+                    <img src="images/31231231.jpg" alt="作品1">
+                    <h3>LIVE</h3>
+                    <span class="tag">PS设计</span>
+                    <div class="overlay">LIVE</div>
+                </div>
+                <div class="works-card">
+                    <img src="images/312312.jpg" alt="作品1">
+                    <h3>小桥</h3>
+                    <span class="tag">摄影</span>
+                    <div class="overlay">小桥</div>
+                </div>
+                <div class="works-card">
+                    <img src="images/312123.jpg" alt="作品1">
+                    <h3>故宫</h3>
+                    <span class="tag">PS设计</span>
+                    <div class="overlay">故宫</div>
+                </div>
+                <div class="works-card">
+                    <img src="images/1233123.jpg" alt="作品1">
+                    <h3>拼贴图</h3>
+                    <span class="tag">PS设计</span>
+                    <div class="overlay">拼贴图</div>
+                </div>
+
             </div>
         </section>
 
@@ -194,10 +401,19 @@
     </main>
 
     <footer id="contact">
-        <p>📧 邮箱:2122959720@qq.com</p>
+        <p>📧 邮箱: <a style="text-decoration: none;" href="mailto:2122959720@qq.com">2122959720@qq.com</a></p>
         <p>© 2026 宋韶晗</p>
+        <p>🐙 GitHub：<a style="text-decoration: none;"
+                href="https://github.com/SongShaoHannn/-my-site">SongShaoHannn</a></p>
     </footer>
-
+    <div id="lightbox">
+        <img src="" alt="预览大图">
+        <div class="lightbox-btns">
+            <button id="prevBtn">◀</button>
+            <button id="closeBtn">✕</button>
+            <button id="nextBtn">▶</button>
+        </div>
+    </div>
     <script>
         let myName = "宋韶晗";
         let myAge = 18;
@@ -253,7 +469,47 @@
             count = 0;
             span.textContent = count;
         })
-
+        let lightbox = document.querySelector("#lightbox");
+        let bigImg = document.querySelector("#lightbox img");
+        let cards = document.querySelectorAll(".works-card img");
+        let currentIndex = 0;
+        cards.forEach(function (img, index) {
+            img.addEventListener("click", function () {
+                currentIndex = index;
+                bigImg.src = img.src;
+                lightbox.classList.add("show");
+            })
+        })
+        function showImage(i) {
+            currentIndex = i;
+            bigImg.src = cards[i].src;
+        }
+        let prevBtn = document.querySelector("#prevBtn");
+        let nextBtn = document.querySelector("#nextBtn");
+        prevBtn.addEventListener("click", function () {
+            if (currentIndex > 0) {
+                showImage(currentIndex - 1);
+            }
+        })
+        nextBtn.addEventListener("click", function () {
+            if (currentIndex < cards.length - 1) {
+                showImage(currentIndex + 1);
+            }
+        })
+        let closeBtn = document.querySelector("#closeBtn");
+        closeBtn.addEventListener("click", function () {
+            lightbox.classList.remove("show");
+        })
+        lightbox.addEventListener("click", function (e) {
+            if (e.target === lightbox) {
+                lightbox.classList.remove("show");
+            }
+        })
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                lightbox.classList.remove("show");
+            }
+        })
     </script>
 </body>
 
