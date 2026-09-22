@@ -227,7 +227,6 @@
         }
 
         #lightbox img {
-            position: relative;
             width: 80%;
             max-width: 800px;
             border-radius: 8px;
@@ -453,17 +452,12 @@
         title.style.color = "red"
         title.style.fontSize = "36px"
         let button = document.querySelector("#addBtn");
-        /*button.addEventListener("click",function(){
-            alert("按键被点击了!")
-        })  */
         let count = 0;
         let span = document.querySelector("#count")
         button.addEventListener("click", function () {
             count = count + 1;
             span.textContent = count;
         })
-        let card = document.querySelector(".card");
-        console.log(title);
         let button2 = document.querySelector("#addBtn2");
         button2.addEventListener("click", function () {
             count = 0;
