@@ -11,7 +11,7 @@
         }
 
         :root {
-            --main-color: #56a7fe;
+            --main-color: #78ffff;
             --bg-color: #f5f7fa;
             --text-color: #333333;
         }
@@ -242,6 +242,21 @@
             color: white;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #backTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: none;
+        }
+
+        #backTop.show {
+            display: block;
+        }
+
         @keyframes fillBar {
             from {
                 width: 0;
@@ -292,7 +307,7 @@
         }
     </style>
 </head>
-
+<link rel="icon" type="image/png" href="images/logo.png">
 <body>
     <header class="top">
         <div class="logo">宋韶晗</div>
@@ -357,39 +372,7 @@
 
         <section id="works">
             <h3>我的作品</h3>
-            <div class="works-grid">
-                <div class="works-card">
-                    <img src="images/12.jpg" alt="作品1">
-                    <h3>夏</h3>
-                    <span class="tag">摄影</span>
-                    <div class="overlay">夏</div>
-                </div>
-                <div class="works-card">
-                    <img src="images/31231231.jpg" alt="作品1">
-                    <h3>LIVE</h3>
-                    <span class="tag">PS设计</span>
-                    <div class="overlay">LIVE</div>
-                </div>
-                <div class="works-card">
-                    <img src="images/312312.jpg" alt="作品1">
-                    <h3>小桥</h3>
-                    <span class="tag">摄影</span>
-                    <div class="overlay">小桥</div>
-                </div>
-                <div class="works-card">
-                    <img src="images/312123.jpg" alt="作品1">
-                    <h3>故宫</h3>
-                    <span class="tag">PS设计</span>
-                    <div class="overlay">故宫</div>
-                </div>
-                <div class="works-card">
-                    <img src="images/1233123.jpg" alt="作品1">
-                    <h3>拼贴图</h3>
-                    <span class="tag">PS设计</span>
-                    <div class="overlay">拼贴图</div>
-                </div>
-
-            </div>
+            <div class="works-grid"></div>
         </section>
 
         <section>
@@ -403,10 +386,13 @@
         <p>📧 邮箱: <a style="text-decoration: none;" href="mailto:2122959720@qq.com">2122959720@qq.com</a></p>
         <p>© 2026 宋韶晗</p>
         <p>🐙 GitHub：<a style="text-decoration: none;"
-                href="https://github.com/SongShaoHannn/-my-site">SongShaoHannn</a></p>
+                href="https://github.com/SongShaoHannn/-my-site/tree/main">SongShaoHannn</a></p>
     </footer>
+    <button  id="backTop">↑ 顶部</button>
     <div id="lightbox">
         <img src="" alt="预览大图">
+        <h3 id="lbTitle"></h3>
+        <p id="lbDesc"></p>
         <div class="lightbox-btns">
             <button id="prevBtn">◀</button>
             <button id="closeBtn">✕</button>
@@ -463,48 +449,20 @@
             count = 0;
             span.textContent = count;
         })
-        let lightbox = document.querySelector("#lightbox");
-        let bigImg = document.querySelector("#lightbox img");
-        let cards = document.querySelectorAll(".works-card img");
-        let currentIndex = 0;
-        cards.forEach(function (img, index) {
-            img.addEventListener("click", function () {
-                currentIndex = index;
-                bigImg.src = img.src;
-                lightbox.classList.add("show");
-            })
-        })
-        function showImage(i) {
-            currentIndex = i;
-            bigImg.src = cards[i].src;
-        }
-        let prevBtn = document.querySelector("#prevBtn");
-        let nextBtn = document.querySelector("#nextBtn");
-        prevBtn.addEventListener("click", function () {
-            if (currentIndex > 0) {
-                showImage(currentIndex - 1);
+        let backTop = document.querySelector("#backTop");
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 400) {
+                backTop.classList.add("show");
+            }
+            else {
+                backTop.classList.remove("show")
             }
         })
-        nextBtn.addEventListener("click", function () {
-            if (currentIndex < cards.length - 1) {
-                showImage(currentIndex + 1);
-            }
-        })
-        let closeBtn = document.querySelector("#closeBtn");
-        closeBtn.addEventListener("click", function () {
-            lightbox.classList.remove("show");
-        })
-        lightbox.addEventListener("click", function (e) {
-            if (e.target === lightbox) {
-                lightbox.classList.remove("show");
-            }
-        })
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") {
-                lightbox.classList.remove("show");
-            }
+        backTop.addEventListener("click",function(){
+            window.scrollTo({top:0,behavior:"smooth"});
         })
     </script>
+    <script src="works.js"></script>
 </body>
 
 </html>
